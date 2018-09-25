@@ -1,6 +1,7 @@
 package cuj.loganalyst;
 
 
+import cuj.loganalyst.common.ConfigKey;
 import cuj.loganalyst.common.TaskType;
 import cuj.loganalyst.service.*;
 import org.apache.log4j.PropertyConfigurator;
@@ -18,7 +19,7 @@ public class LogAnalyst {
     private static LogAnalysisService logAnalysisService = null;
     private static RecordAnalysisService recordAnalysisService;
     private static EventHangUpAnalysisService eventHangUpAnalysisService;
-    private static FileReader fileReader;
+    private static FileReader cfg;
     private static int type ;
     private static String[] fileNames;
     private static String charsetName;
@@ -37,19 +38,19 @@ public class LogAnalyst {
     }
 
     private static void init() {
-        PropertyConfigurator.configure ( LogAnalyst.class.getClassLoader().getResource("loganalyst_log4j.properties") );
+        PropertyConfigurator.configure ( LogAnalyst.class.getClassLoader().getResource(ConfigKey.LOG_CONFIG_FILE_NAME) );
         try{
-            fileReader = new FileReader("config.ini");
+            cfg = new FileReader("config.ini");
         }catch (FileNotFoundException fe)
         {
 
         }
-        type = fileReader.getInteger("TYPE", TaskType.SPLIT_LOG);
-        String fromFileNamesStr = fileReader.getString("FROM","");
-        fileNames = fromFileNamesStr.split(",");
-        toFileName = fileReader.getString("TO","");
-        charsetName=fileReader.getString("CHARSET","GBK");
-        containWord =fileReader.getString("CONTAIN_WORD","");
+        type = cfg.getInteger(ConfigKey.TYPE, TaskType.SPLIT_LOG);
+        String fromFileNamesStr = cfg.getString(ConfigKey.FROM_FILE,ConfigKey.FROM_FILE_DEFAULT);
+        fileNames = fromFileNamesStr.split(ConfigKey.SPLIT_WORD);
+        toFileName = cfg.getString(ConfigKey.TO_FILE,ConfigKey.TO_FILE_DEFAULT);
+        charsetName=cfg.getString(ConfigKey.CHAR_SET,ConfigKey.CHAR_SET_DEFAULT);
+        containWord =cfg.getString(ConfigKey.CONTAIN_WORD,ConfigKey.CONTAIN_WORD_DEFAULT);
     }
 
     public static void getLog()
