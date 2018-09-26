@@ -16,6 +16,23 @@ import java.io.FileReader;
  */
 public class LogAnalyst {
     private final static Logger log = LoggerFactory.getLogger(LogAnalyst.class);
+
+    public static final String LOG_CONFIG_FILE_NAME="loganalyst_log4j.properties";
+
+    public static final String CONFIG_FILE_NAME = "config.ini";
+    public static final String FROM_FILE = "FROM";
+    public static final String FROM_FILE_DEFAULT="";
+    public static final String TO_FILE="TO";
+    public static final String TO_FILE_DEFAULT="";
+
+    public static final String SPLIT_WORD = ",";
+    public static final String CHAR_SET="CHARSET";
+    public static final String CHAR_SET_DEFAULT="GBK";
+    public static final String CONTAIN_WORD="CONTAIN_WORD";
+    public static final String CONTAIN_WORD_DEFAULT="";
+
+    public static final String TYPE="TYPE";
+
     private static LogAnalysisService logAnalysisService = null;
     private static RecordAnalysisService recordAnalysisService;
     private static EventHangUpAnalysisService eventHangUpAnalysisService;
@@ -38,19 +55,19 @@ public class LogAnalyst {
     }
 
     private static void init() {
-        PropertyConfigurator.configure ( LogAnalyst.class.getClassLoader().getResource(ConfigKey.LOG_CONFIG_FILE_NAME) );
+        PropertyConfigurator.configure ( LogAnalyst.class.getClassLoader().getResource(LOG_CONFIG_FILE_NAME) );
         try{
             cfg = new FileReader("config.ini");
         }catch (FileNotFoundException fe)
         {
 
         }
-        type = cfg.getInteger(ConfigKey.TYPE, TaskType.SPLIT_LOG);
-        String fromFileNamesStr = cfg.getString(ConfigKey.FROM_FILE,ConfigKey.FROM_FILE_DEFAULT);
-        fileNames = fromFileNamesStr.split(ConfigKey.SPLIT_WORD);
-        toFileName = cfg.getString(ConfigKey.TO_FILE,ConfigKey.TO_FILE_DEFAULT);
-        charsetName=cfg.getString(ConfigKey.CHAR_SET,ConfigKey.CHAR_SET_DEFAULT);
-        containWord =cfg.getString(ConfigKey.CONTAIN_WORD,ConfigKey.CONTAIN_WORD_DEFAULT);
+        type = cfg.getInteger(TYPE, TaskType.SPLIT_LOG);
+        String fromFileNamesStr = cfg.getString(FROM_FILE,FROM_FILE_DEFAULT);
+        fileNames = fromFileNamesStr.split(SPLIT_WORD);
+        toFileName = cfg.getString(TO_FILE,TO_FILE_DEFAULT);
+        charsetName=cfg.getString(CHAR_SET,CHAR_SET_DEFAULT);
+        containWord =cfg.getString(CONTAIN_WORD,CONTAIN_WORD_DEFAULT);
     }
 
     public static void getLog()
