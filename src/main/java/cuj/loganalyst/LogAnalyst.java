@@ -62,6 +62,9 @@ public class LogAnalyst {
         {
 
         }
+
+
+
         type = cfg.getInteger(TYPE, TaskType.SPLIT_LOG);
         String fromFileNamesStr = cfg.getString(FROM_FILE,FROM_FILE_DEFAULT);
         fileNames = fromFileNamesStr.split(SPLIT_WORD);
