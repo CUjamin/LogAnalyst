@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +72,13 @@ public class RecordAnalysisServiceImpl implements RecordAnalysisService {
 
     private String getResult(String releasedTimeStr , Record record)
     {
-        long releasedTime = TimeUtil.getTimeStamp(releasedTimeStr);
+        long releasedTime = 0L;
+        try{
+            TimeUtil.getTimeStamp(releasedTimeStr);
+        }catch (ParseException pe){
+            log.error("解析时间字符串出错",pe);
+            return null;
+        }
         long callCustomerTime = Long.parseLong(record.getCallCustomerTime());
         String callCustomerTimeStr = TimeUtil.getTimeStr(callCustomerTime);
         double diffTime = (double) (releasedTime-callCustomerTime)/1000.0;

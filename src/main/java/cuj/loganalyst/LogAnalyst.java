@@ -65,7 +65,7 @@ public class LogAnalyst {
             charsetName = PropertiesUtil.getString(ConfigKey.CHAR_SET, ConfigKey.CHAR_SET_DEFAULT);
             containWord = PropertiesUtil.getString(ConfigKey.CONTAIN_WORD, ConfigKey.CONTAIN_WORD_DEFAULT);
         }catch (Exception e){
-
+            log.error("读取参数出错",e);
         }
     }
 

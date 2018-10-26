@@ -10,6 +10,7 @@ import cuj.loganalyst.util.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +78,11 @@ public class MergeServiceImpl implements MergeService {
         if (tempStrArray.length>=2)
         {
             String timeStr = tempStrArray[0];
-            timeLong = TimeUtil.getTimeStamp(timeStr);
+            try{
+                timeLong = TimeUtil.getTimeStamp(timeStr);
+            }catch (ParseException pe){
+                log.error("解析时间字符串出错",pe);
+            }
         }
         if(0L==timeLong)log.error("time error");
         return timeLong;
