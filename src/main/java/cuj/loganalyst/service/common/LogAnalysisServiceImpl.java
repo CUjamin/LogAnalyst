@@ -1,14 +1,16 @@
-package cuj.loganalyst.service;
+package cuj.loganalyst.service.common;
 
-import cuj.loganalyst.input.InputService;
-import cuj.loganalyst.input.InputServiceImpl;
-import cuj.loganalyst.output.OutputService;
-import cuj.loganalyst.output.OutputServiceImpl;
+import cuj.loganalyst.service.io.input.InputService;
+import cuj.loganalyst.service.io.input.InputServiceImpl;
+import cuj.loganalyst.service.io.output.OutputService;
+import cuj.loganalyst.service.io.output.OutputServiceImpl;
+import cuj.loganalyst.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Created by cujamin on 2018/7/11.
@@ -19,16 +21,16 @@ public class LogAnalysisServiceImpl implements LogAnalysisService {
     private OutputService outputService = new OutputServiceImpl();
 
     @Override
-    public void handle(String fromFileName,String toFileName,String charsetName,String containWord)
+    public void handle(File file, String toFileName, String charsetName, String containWord)
     {
         log.info(" [start analysis ... ] ");
-        List<String> dataList = inputService.readFromFile(fromFileName);
+        List<String> dataList = inputService.readFromFile(file);
         if(null!=dataList&&dataList.size()>0)
         {
             List<String> tempList = new ArrayList<String>();
             for(String tempStr:dataList)
             {
-                if(containWord(tempStr, containWord))
+                if(LogUtils.containWord(tempStr, containWord))
                 {
                     tempList.add(handleWord(tempStr, containWord));
                 }
@@ -40,24 +42,18 @@ public class LogAnalysisServiceImpl implements LogAnalysisService {
     }
 
     @Override
-    public void handleByLine(String fromFileName,String toFileName,String charsetName,String word) {
-        String tempStr = inputService.readNextLine(fromFileName);
+    public void handleByLine(File file,String toFileName,String charsetName,String word) {
+        String tempStr = inputService.readNextLine(file);
         while(null!=tempStr)
         {
-            if(containWord(tempStr,word))
+            if(LogUtils.containWord(tempStr,word))
             {
                 outputService.writeNextLine(handleWord(tempStr,word),toFileName,charsetName);
             }
-            tempStr = inputService.readNextLine(fromFileName);
+            tempStr = inputService.readNextLine(file);
         }
     }
 
-
-    private boolean containWord(String data,String word)
-    {
-        String pattern = String.format(".*%s.*", word);
-        return Pattern.matches(pattern, data);
-    }
     private String handleWord(String data,String word)
     {
 //        word= String.format("ycdx_%s_", word);

@@ -1,4 +1,4 @@
-package cuj.loganalyst.output;
+package cuj.loganalyst.service.io.output;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +22,21 @@ public class OutputServiceImpl implements OutputService {
     public void outputInFile(List<String> list,String fileName,String charsetName) {
         OutputStreamWriter writer = null;
         FileOutputStream fout = null;
+
+        File file=new File(fileName);
+        if(!file.exists())
+        {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         try
         {
             log.info(" [ start to write ... ] ");
-            fout = new FileOutputStream(new File(fileName));
+            fout = new FileOutputStream(file);
             writer = new OutputStreamWriter(fout,charsetName);
 
             for(String data:list)

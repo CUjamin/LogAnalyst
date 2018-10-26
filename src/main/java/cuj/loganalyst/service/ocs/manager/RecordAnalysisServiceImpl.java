@@ -1,18 +1,20 @@
-package cuj.loganalyst.service;
+package cuj.loganalyst.service.ocs.manager;
 
 import cuj.loganalyst.domain.Record;
-import cuj.loganalyst.input.InputService;
-import cuj.loganalyst.input.InputServiceImpl;
-import cuj.loganalyst.output.OutputService;
-import cuj.loganalyst.output.OutputServiceImpl;
+import cuj.loganalyst.service.io.input.InputService;
+import cuj.loganalyst.service.io.input.InputServiceImpl;
+import cuj.loganalyst.service.io.output.OutputService;
+import cuj.loganalyst.service.io.output.OutputServiceImpl;
+import cuj.loganalyst.service.common.LogAnalysisServiceImpl;
+import cuj.loganalyst.util.LogUtils;
 import cuj.loganalyst.util.RecordUtil;
 import cuj.loganalyst.util.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Created by cujamin on 2018/9/20.
@@ -24,15 +26,15 @@ public class RecordAnalysisServiceImpl implements RecordAnalysisService {
     private final static String spitKey1 = " INFO";
 
     @Override
-    public void handle(String fromFileName,String toFileName,String charsetName,String containWord,int resultType) {
+    public void handle(File file, String toFileName, String charsetName, String containWord, int resultType) {
         log.info(" [start analysis ... ] ");
-        List<String> dataList = inputService.readFromFile(fromFileName);
+        List<String> dataList = inputService.readFromFile(file);
         if(null!=dataList&&dataList.size()>0)
         {
             List<String> tempList = new ArrayList<String>();
             for(String tempStr:dataList)
             {
-                if(containWord(tempStr,containWord))
+                if(LogUtils.containWord(tempStr,containWord))
                 {
                     handleRecord(tempList,tempStr,resultType);
                 }
@@ -75,11 +77,5 @@ public class RecordAnalysisServiceImpl implements RecordAnalysisService {
         double diffTime = (double) (releasedTime-callCustomerTime)/1000.0;
         String result="releasedTimeStr:"+releasedTimeStr+";call_customer_timeStr:"+callCustomerTimeStr+"releasedTime:"+releasedTime+";call_customer_time:"+callCustomerTime+";diffTime:"+diffTime+"s - Record:"+record.toString();
         return result;
-    }
-
-    private boolean containWord(String data,String word)
-    {
-        String pattern = String.format(".*%s.*", word);
-        return Pattern.matches(pattern, data);
     }
 }

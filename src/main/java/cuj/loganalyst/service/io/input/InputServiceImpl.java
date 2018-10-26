@@ -1,4 +1,4 @@
-package cuj.loganalyst.input;
+package cuj.loganalyst.service.io.input;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +16,9 @@ public class InputServiceImpl implements InputService {
     private BufferedReader reader = null;
 
     @Override
-    public List<String> readFromFile(String fileName) {
+    public List<String> readFromFile(File file) {
         log.info(" [ start to read ... ] ");
         List<String> list = new LinkedList<String>();
-        file = new File(fileName);
         try
         {
             reader =new BufferedReader(new FileReader(file));
@@ -42,13 +41,10 @@ public class InputServiceImpl implements InputService {
         }
     }
 
-    public String readNextLine(String fileName)
+    public String readNextLine(File file)
     {
         String data=null;
         try {
-            if (null == file) {
-                file = new File(fileName);
-            }
             if (null == reader) {
                 reader = new BufferedReader(new FileReader(file));
             }

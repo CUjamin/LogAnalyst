@@ -1,4 +1,4 @@
-package cuj.loganalyst.output;
+package cuj.loganalyst.service.io.output;
 
 import java.util.List;
 
@@ -7,5 +7,5 @@ import java.util.List;
  */
 public interface OutputService {
     void outputInFile(List<String> list, String fileName, String charsetName);
-    void writeNextLine(String data,String fileName,String charsetName);
+    void writeNextLine(String data, String fileName, String charsetName);
 }
