@@ -1,4 +1,4 @@
-package cuj.loganalyst.service.common;
+package cuj.loganalyst.service.handle.common.sifte;
 
 import cuj.loganalyst.service.io.input.InputService;
 import cuj.loganalyst.service.io.input.InputServiceImpl;
@@ -13,21 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by cujamin on 2018/7/11.
+ * @Auther: cujamin
+ * @Date: 2018/10/30 18:24
+ * @Description:
  */
-public class LogAnalysisServiceImpl implements LogAnalysisService {
-    private final static Logger log = LoggerFactory.getLogger(LogAnalysisServiceImpl.class);
+public class SifteServiceImpl implements SifteService {
+    private final static Logger log = LoggerFactory.getLogger(SifteServiceImpl.class);
+
     private InputService inputService = new InputServiceImpl();
     private OutputService outputService = new OutputServiceImpl();
-
     @Override
     public void handle(File file, String toFileName, String charsetName, String containWord)
     {
         log.info(" [start analysis ... ] ");
         List<String> dataList = inputService.readFromFile(file);
+        List<String> tempList = new ArrayList<String>();
         if(null!=dataList&&dataList.size()>0)
         {
-            List<String> tempList = new ArrayList<String>();
             for(String tempStr:dataList)
             {
                 if(LogUtils.containWord(tempStr, containWord))
@@ -36,22 +38,9 @@ public class LogAnalysisServiceImpl implements LogAnalysisService {
                 }
             }
             log.info(" [ handle data number: "+tempList.size()+" ] ");
-            outputService.outputInFile(tempList,toFileName,charsetName);
         }
         log.info(" [start analysis end ] ");
-    }
-
-    @Override
-    public void handleByLine(File file,String toFileName,String charsetName,String word) {
-        String tempStr = inputService.readNextLine(file);
-        while(null!=tempStr)
-        {
-            if(LogUtils.containWord(tempStr,word))
-            {
-                outputService.writeNextLine(handleWord(tempStr,word),toFileName,charsetName);
-            }
-            tempStr = inputService.readNextLine(file);
-        }
+        outputService.outputInFile(tempList,toFileName,charsetName);
     }
 
     private String handleWord(String data,String word)

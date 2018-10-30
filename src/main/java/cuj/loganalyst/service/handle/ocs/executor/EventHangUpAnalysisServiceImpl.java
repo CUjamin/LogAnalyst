@@ -1,11 +1,11 @@
-package cuj.loganalyst.service.ocs.executor;
+package cuj.loganalyst.service.handle.ocs.executor;
 
 import cuj.loganalyst.common.EventHangUpType;
 import cuj.loganalyst.service.io.input.InputService;
 import cuj.loganalyst.service.io.input.InputServiceImpl;
 import cuj.loganalyst.service.io.output.OutputService;
 import cuj.loganalyst.service.io.output.OutputServiceImpl;
-import cuj.loganalyst.service.common.LogAnalysisServiceImpl;
+import cuj.loganalyst.service.LogAnalysisServiceImpl;
 import cuj.loganalyst.util.LogUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,14 +1,13 @@
-package cuj.loganalyst.service.common.marge;
+package cuj.loganalyst.service.handle.common.marge;
 
-import cuj.loganalyst.domain.Record;
 import cuj.loganalyst.service.io.input.InputService;
 import cuj.loganalyst.service.io.input.InputServiceImpl;
 import cuj.loganalyst.service.io.output.OutputService;
 import cuj.loganalyst.service.io.output.OutputServiceImpl;
-import cuj.loganalyst.util.RecordUtil;
 import cuj.loganalyst.util.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
