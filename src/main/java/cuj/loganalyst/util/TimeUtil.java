@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by cujamin on 2018/9/20.
  */
 public class TimeUtil {
-    public static final String TIME_PATTERN = "yyyy-MM-dd hh:mm:ss,SSS";
+    public static final String TIME_PATTERN = "yyyy-MM-dd HH:mm:ss,SSS";
     public final static DateFormat timeFormat = new SimpleDateFormat(TIME_PATTERN);
 
 
@@ -39,5 +39,8 @@ public class TimeUtil {
     {
         DateFormat format = new SimpleDateFormat(timePattern);
         return format.format(new Date(timeLong));
+    }
+    public static long difTime(String timeStrA,String timeStrB)throws ParseException{
+        return  timeFormat.parse(timeStrB).getTime()-timeFormat.parse(timeStrA).getTime();
     }
 }

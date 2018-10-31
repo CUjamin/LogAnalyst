@@ -42,7 +42,7 @@ public class RecordAnalysisServiceImpl implements RecordAnalysisService {
             }
             log.info(" [ handle data number: "+tempList.size()+" ] ");
             if(tempList.size()>0){
-                outputService.outputInFile(tempList,toFileName,charsetName);
+                outputService.outputInFile(tempList,toFileName+".log",charsetName);
             }else {
                 log.info(" [结果为空 ] ");
             }

@@ -63,7 +63,7 @@ public class MergeServiceImpl implements MergeService {
                 dataB = dataListB.remove(0);
             }
         }
-        outputService.outputInFile(outPutList,toFileName,charsetName);
+        outputService.outputInFile(outPutList, String.format("%s.log", toFileName),charsetName);
         log.info(" [ merge end ] ");
     }
     private boolean dateAisEarlier(String dataA,String dataB){

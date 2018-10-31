@@ -6,6 +6,8 @@ import cuj.loganalyst.service.handle.common.marge.MergeService;
 import cuj.loganalyst.service.handle.common.marge.MergeServiceImpl;
 import cuj.loganalyst.service.handle.common.sifte.SifteService;
 import cuj.loganalyst.service.handle.common.sifte.SifteServiceImpl;
+import cuj.loganalyst.service.handle.common.time.TimeDifferenceService;
+import cuj.loganalyst.service.handle.common.time.TimeDifferenceServiceImpl;
 import cuj.loganalyst.service.handle.ocs.executor.EventHangUpAnalysisService;
 import cuj.loganalyst.service.handle.ocs.manager.RecordAnalysisService;
 import cuj.loganalyst.service.handle.ocs.executor.EventHangUpAnalysisServiceImpl;
@@ -50,36 +52,37 @@ public class LogAnalysisServiceImpl implements LogAnalysisService {
             log.info(" [get files from the path:"+path+" OK ] ");
 
 
-            handleFiles(files);
+            handleFiles();
         }
         else {
-
+            log.info("path 为空");
         }
     }
 
-    private void handleFiles(File[] files){
+    private void handleFiles(){
         List<String> list = null;
         switch (type)
         {
-            case TaskType.SPLIT_LOG:        getLog(files);               break;
-            case TaskType.RECORD_ANALYSIS:  analystRecordTime(files);    break;
-            case TaskType.EVENT_ANALYSIS:   eventHangUpAnalysis(files);  break;
-            case TaskType.MERGE:            mergeLogFile(files);         break;
+            case TaskType.SPLIT_LOG:        getLog();               break;
+            case TaskType.RECORD_ANALYSIS:  analystRecordTime();    break;
+            case TaskType.EVENT_ANALYSIS:   eventHangUpAnalysis();  break;
+            case TaskType.MERGE:            mergeLogFile();         break;
+            case TaskType.TIME_DIFF:        timeDIff();             break;
             default:break;
         }
     }
 
-    public void getLog(File[] files) {
+    public void getLog() {
         for(File file:files){
             SifteService sifteService = new SifteServiceImpl();
             log.info(" [logAnalysisService-form:" + file.getName() + ";to:" + toFileName + ";charset:" + charsetName + ";containWord:" + containWord + "] ");
-            toFileName = String.format("%s-%s.log", file.getName(), containWord);
+            toFileName = String.format("%s-%s", file.getName(), containWord);
             sifteService.handle(file,toFileName,charsetName, containWord);
         }
     }
 
 
-    private void analystRecordTime(File[] files) {
+    private void analystRecordTime() {
         RecordAnalysisService recordAnalysisService = new RecordAnalysisServiceImpl();
         String resultsStr = null;
         try{
@@ -93,22 +96,30 @@ public class LogAnalysisServiceImpl implements LogAnalysisService {
             log.info(" [recordAnalysisService-form:" + file.getName() + ";to:" + toFileName + ";charset:" + charsetName + ";containWord:" + containWord + "] ");
             for (int i = 0; i < results.length; ++i) {
                 int resultType = Integer.valueOf(results[i]);
-                toFileName = String.format("%s-%s-resultType-%s.log", file.getName(), containWord, resultType);
+                toFileName = String.format("%s-%s-resultType-%s", file.getName(), containWord, resultType);
                 recordAnalysisService.handle(file, toFileName, charsetName, containWord, resultType);
             }
-
         }
     }
 
-    private void eventHangUpAnalysis(File[] files) {
+    private void eventHangUpAnalysis() {
         EventHangUpAnalysisService eventHangUpAnalysisService = new EventHangUpAnalysisServiceImpl();
         log.info(" [eventHangUpAnalysis-to:"+toFileName+";charset:"+charsetName+";containWord:"+containWord+"] ");
         eventHangUpAnalysisService.handle(files,toFileName,charsetName,containWord);
     }
 
-    private void mergeLogFile(File[] files) {
+    private void mergeLogFile() {
         MergeService mergeService = new MergeServiceImpl();
-        log.info(" [eventHangUpAnalysis-to:"+toFileName+";charset:"+charsetName+";containWord:"+containWord+"] ");
+        log.info(" [ mergeLogFile - charset : "+charsetName+" ; containWord : "+containWord+" ] ");
         mergeService.handle(files[0],files[1],toFileName,charsetName);
+    }
+
+    private void timeDIff(){
+        TimeDifferenceService timeDifferenceService = new TimeDifferenceServiceImpl();
+        log.info(" [ timeDIff - charset : "+charsetName+" ; containWord : "+containWord+" ] ");
+        for (File file : files){
+            toFileName=String.format("%s-time-diff", file.getName());
+            timeDifferenceService.handle(file,toFileName,charsetName,containWord);
+        }
     }
 }

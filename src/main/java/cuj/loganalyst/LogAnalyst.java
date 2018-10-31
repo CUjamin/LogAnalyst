@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by cujamin on 2018/7/11.
@@ -47,7 +48,6 @@ public class LogAnalyst {
             toFileName = PropertiesUtil.getString(ConfigKey.TO_FILE, ConfigKey.TO_FILE_DEFAULT);
             charsetName = PropertiesUtil.getString(ConfigKey.CHAR_SET, ConfigKey.CHAR_SET_DEFAULT);
             containWord = PropertiesUtil.getString(ConfigKey.CONTAIN_WORD, ConfigKey.CONTAIN_WORD_DEFAULT);
-
             type = PropertiesUtil.getInteger(ConfigKey.TYPE, TaskType.SPLIT_LOG);
             param.put(ConfigKey.TYPE,type);
 

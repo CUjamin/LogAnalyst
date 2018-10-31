@@ -40,7 +40,7 @@ public class SifteServiceImpl implements SifteService {
             log.info(" [ handle data number: "+tempList.size()+" ] ");
         }
         log.info(" [start analysis end ] ");
-        outputService.outputInFile(tempList,toFileName,charsetName);
+        outputService.outputInFile(tempList, String.format("%s.log", toFileName),charsetName);
     }
 
     private String handleWord(String data,String word)

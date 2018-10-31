@@ -42,7 +42,7 @@ public class EventHangUpAnalysisServiceImpl implements EventHangUpAnalysisServic
                 tempList.add(file.getName() + data);
             }
             log.info(" [ handle data number: "+tempList.size()+" ] ");
-            outputService.outputInFile(tempList,toFileName,charsetName);
+            outputService.outputInFile(tempList,toFileName+".csv",charsetName);
         }
         log.info(" [start analysis end ] ");
     }
