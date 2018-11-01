@@ -111,7 +111,7 @@ public class LogAnalysisServiceImpl implements LogAnalysisService {
     private void mergeLogFile() {
         MergeService mergeService = new MergeServiceImpl();
         log.info(" [ mergeLogFile - charset : "+charsetName+" ; containWord : "+containWord+" ] ");
-        mergeService.handle(files[0],files[1],toFileName,charsetName);
+        mergeService.handle(files,toFileName,charsetName);
     }
 
     private void timeDIff(){
