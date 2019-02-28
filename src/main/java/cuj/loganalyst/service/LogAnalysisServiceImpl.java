@@ -51,7 +51,6 @@ public class LogAnalysisServiceImpl implements LogAnalysisService {
 
             log.info(" [get files from the path:"+path+" OK ] ");
 
-
             handleFiles();
         }
         else {
@@ -95,7 +94,7 @@ public class LogAnalysisServiceImpl implements LogAnalysisService {
         for (File file : files) {
             log.info(" [recordAnalysisService-form:" + file.getName() + ";to:" + toFileName + ";charset:" + charsetName + ";containWord:" + containWord + "] ");
             for (int i = 0; i < results.length; ++i) {
-                int resultType = Integer.valueOf(results[i]);
+                int resultType = Integer.parseInt(results[i]);
                 toFileName = String.format("%s-%s-resultType-%s", file.getName(), containWord, resultType);
                 recordAnalysisService.handle(file, toFileName, charsetName, containWord, resultType);
             }

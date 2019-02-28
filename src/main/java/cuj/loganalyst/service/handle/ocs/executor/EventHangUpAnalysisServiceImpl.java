@@ -65,16 +65,13 @@ public class EventHangUpAnalysisServiceImpl implements EventHangUpAnalysisServic
             {
                 for (String type:EventHangUpType.EVENT_HANGUP_S.keySet())
                 {
-
                     if(LogUtils.containWord(log,type))
                     {
                         result[EventHangUpType.EVENT_HANGUP_S.get(type)]++;
                     }
-
                 }
                 result[8]++;
             }
-
         }
         return result;
     }

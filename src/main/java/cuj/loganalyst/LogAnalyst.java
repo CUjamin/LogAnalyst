@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by cujamin on 2018/7/11.
@@ -26,7 +25,6 @@ public class LogAnalyst {
     private static String charsetName;
     private static String containWord;
     private static String toFileName;
-    private static File[] files = null;
     private static Map<String,Object> param = new HashMap<String,Object>();
 
     public static void main(String[] args) {
@@ -37,12 +35,29 @@ public class LogAnalyst {
     }
 
     private static void initParam() {
-        PropertyConfigurator.configure(LogAnalyst.class.getClassLoader().getResource(ConfigKey.LOG_CONFIG_FILE_NAME));
+        //init log
+        File logConfigFile = new File(ConfigKey.LOG_CONFIG_FILE_NAME);
+        if(logConfigFile.exists()){
+            log.info("use outside log config file : "+ConfigKey.LOG_CONFIG_FILE_NAME);
+            PropertyConfigurator.configure(ConfigKey.LOG_CONFIG_FILE_NAME);
+        }else {
+            log.info("use inside log config file : "+LogAnalyst.class.getClassLoader().getResource(ConfigKey.LOG_CONFIG_FILE_NAME));
+            PropertyConfigurator.configure(LogAnalyst.class.getClassLoader().getResource(ConfigKey.LOG_CONFIG_FILE_NAME));
+        }
+        //init cofnig
         try {
-            PropertiesUtil.initPropertiesFile(ConfigKey.CONFIG_FILE_NAME);
+            File configFile = new File(ConfigKey.CONFIG_FILE_NAME);
+            if(configFile.exists()){
+                log.info("use outside config file : "+ConfigKey.CONFIG_FILE_NAME);
+                PropertiesUtil.initPropertiesFile(ConfigKey.CONFIG_FILE_NAME);
+            }else {
+                log.info("use inside config file : "+LogAnalyst.class.getClassLoader().getResource(ConfigKey.CONFIG_FILE_NAME).toExternalForm());
+                PropertiesUtil.initPropertiesFile(LogAnalyst.class.getClassLoader().getResource(ConfigKey.CONFIG_FILE_NAME).toExternalForm());
+            }
         } catch (IOException e) {
             log.info("读取配置文件出错");
         }
+        // read config params
         try {
             path = PropertiesUtil.getString(ConfigKey.PATH, ConfigKey.PATH_DEFAULT);
             toFileName = PropertiesUtil.getString(ConfigKey.TO_FILE, ConfigKey.TO_FILE_DEFAULT);
@@ -50,7 +65,6 @@ public class LogAnalyst {
             containWord = PropertiesUtil.getString(ConfigKey.CONTAIN_WORD, ConfigKey.CONTAIN_WORD_DEFAULT);
             type = PropertiesUtil.getInteger(ConfigKey.TYPE, TaskType.SPLIT_LOG);
             param.put(ConfigKey.TYPE,type);
-
         }catch (Exception e){
             log.error("读取参数出错",e);
         }

@@ -26,17 +26,8 @@ public class MergeServiceImpl implements MergeService {
     private final static String spitKey1 = " INFO";
 
     @Override
-    public void handle(File fileA, File fileB, String toFileName, String charsetName) {
-        log.info(" [start merge two file... ] ");
-        List<String> dataListA = inputService.readFromFile(fileA);
-        List<String> dataListB = inputService.readFromFile(fileB);
-        outputService.outputInFile(mergeTwoList(dataListA,dataListB), String.format("%s.log", toFileName),charsetName);
-        log.info(" [ merge two file end ] ");
-    }
-
-    @Override
     public void handle(File[] files, String toFileName, String charsetName) {
-        log.info(" [start merge any file... ] ");
+        log.info(" [start merge any files... ] ");
         List<List<String>> dataLists = new LinkedList<List<String>>();
         for(int i=0;i<files.length;++i){
             List<String> dataList = inputService.readFromFile(files[i]);
@@ -50,7 +41,7 @@ public class MergeServiceImpl implements MergeService {
             dataLists.add(newList);
         }
         outputService.outputInFile(dataLists.remove(0), String.format("%s.log", toFileName),charsetName);
-        log.info(" [ merge any file end ] ");
+        log.info(" [ merge any files end ] ");
 
     }
     public List<String> mergeTwoList(List<String> listA,List<String> listB){

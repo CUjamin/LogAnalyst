@@ -8,6 +8,5 @@ import java.io.File;
  * @Description:
  */
 public interface MergeService {
-    void handle(File fileA, File fileB, String toFileName, String charsetName);
     void handle(File[] files, String toFileName, String charsetName);
 }

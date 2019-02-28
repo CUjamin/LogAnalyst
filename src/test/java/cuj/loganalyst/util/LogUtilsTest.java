@@ -26,4 +26,13 @@ public class LogUtilsTest {
     public void containWordDisorder() {
 
     }
+
+    @Test
+    public void containWordOR() {
+        System.out.println(LogUtils.containWordOR("B12345","A||B&&C"));
+    }
+
+    @Test
+    public void containWordAND() {
+    }
 }

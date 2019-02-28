@@ -2,14 +2,13 @@ package cuj.loganalyst.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
 /**
  * @Auther: cujamin
  * @Date: 2018/10/26 17:16
- * @Description:
+ * @Description: PropertiesUtil
  */
 public class PropertiesUtil {
     private static Properties properties;
@@ -25,6 +24,6 @@ public class PropertiesUtil {
     }
 
     public static Integer getInteger(String key,int defaultValue)throws Exception{
-        return Integer.valueOf( properties.getProperty(key,Integer.toString(defaultValue)));
+        return Integer.parseInt( properties.getProperty(key,Integer.toString(defaultValue)));
     }
 }
