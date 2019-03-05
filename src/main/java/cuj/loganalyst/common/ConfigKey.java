@@ -18,4 +18,5 @@ public class ConfigKey {
     public static final String CONTAIN_WORD_DEFAULT="";
 
     public static final String TYPE="TYPE";
+    public static final String SUFFIX="SUFFIX";
 }

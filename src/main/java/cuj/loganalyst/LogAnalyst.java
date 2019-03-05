@@ -4,6 +4,10 @@ import cuj.loganalyst.common.ConfigKey;
 import cuj.loganalyst.common.TaskType;
 import cuj.loganalyst.service.LogAnalysisService;
 import cuj.loganalyst.service.LogAnalysisServiceImpl;
+import cuj.loganalyst.service.io.input.InputService;
+import cuj.loganalyst.service.io.input.InputServiceImpl;
+import cuj.loganalyst.service.io.output.OutputService;
+import cuj.loganalyst.service.io.output.OutputServiceImpl;
 import cuj.loganalyst.util.PropertiesUtil;
 import org.apache.log4j.PropertyConfigurator;
 import org.slf4j.Logger;
@@ -20,6 +24,7 @@ import java.util.Map;
 public class LogAnalyst {
     private final static Logger log = LoggerFactory.getLogger(LogAnalyst.class);
     private static LogAnalysisService logAnalysisService =  new LogAnalysisServiceImpl();
+
     private static int type ;
     private static String path;
     private static String charsetName;
@@ -30,7 +35,8 @@ public class LogAnalyst {
     public static void main(String[] args) {
 
         initParam();
-        logAnalysisService.handle(path,toFileName,charsetName,containWord,param);
+//        logAnalysisService.handle(path,toFileName,charsetName,containWord,param);
+        logAnalysisService.handle(path,toFileName,charsetName,param);
 
     }
 
@@ -65,6 +71,8 @@ public class LogAnalyst {
             containWord = PropertiesUtil.getString(ConfigKey.CONTAIN_WORD, ConfigKey.CONTAIN_WORD_DEFAULT);
             type = PropertiesUtil.getInteger(ConfigKey.TYPE, TaskType.SPLIT_LOG);
             param.put(ConfigKey.TYPE,type);
+            String suffix = PropertiesUtil.getString(ConfigKey.SUFFIX, "log");
+            param.put(ConfigKey.SUFFIX,suffix);
         }catch (Exception e){
             log.error("读取参数出错",e);
         }

@@ -1,49 +1,38 @@
-package cuj.loganalyst.service.handle.common.marge;
+package cuj.loganalyst.service.handle.common;
 
-import cuj.loganalyst.service.io.input.InputService;
-import cuj.loganalyst.service.io.input.InputServiceImpl;
-import cuj.loganalyst.service.io.output.OutputService;
-import cuj.loganalyst.service.io.output.OutputServiceImpl;
+
 import cuj.loganalyst.util.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
 import java.text.ParseException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: cujamin
- * @Date: 2018/10/26 13:14
+ * @Date: 2019/3/4 11:17
  * @Description:
  */
-public class MergeServiceImpl implements MergeService {
+public class MergeHandler implements Handler{
 
-    private final static Logger log = LoggerFactory.getLogger(MergeServiceImpl.class);
-    private InputService inputService = new InputServiceImpl();
-    private OutputService outputService = new OutputServiceImpl();
+    private final static Logger log = LoggerFactory.getLogger(MergeHandler.class);
     private final static String spitKey1 = " INFO";
 
-    @Override
-    public void handle(File[] files, String toFileName, String charsetName) {
+    public List<String> handle(List<List<String>> dataLists,Map<String, Object> params){
+        List<String> resultDataList = new LinkedList<>();
+
         log.info(" [start merge any files... ] ");
-        List<List<String>> dataLists = new LinkedList<List<String>>();
-        for(int i=0;i<files.length;++i){
-            List<String> dataList = inputService.readFromFile(files[i]);
-            dataLists.add(dataList);
-        }
 
         while(dataLists.size()>1){
             List<String> listA = dataLists.remove(0);
             List<String> listB = dataLists.remove(0);
             List<String> newList = mergeTwoList(listA,listB);
-            dataLists.add(newList);
+            resultDataList.addAll(newList);
         }
-        outputService.outputInFile(dataLists.remove(0), String.format("%s.log", toFileName),charsetName);
-        log.info(" [ merge any files end ] ");
-
+        return resultDataList;
     }
+
     public List<String> mergeTwoList(List<String> listA,List<String> listB){
         List<String> outPutList = new LinkedList<String>();
         if(listA.isEmpty()){
