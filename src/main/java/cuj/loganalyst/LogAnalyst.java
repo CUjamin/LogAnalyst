@@ -68,7 +68,18 @@ public class LogAnalyst {
             path = PropertiesUtil.getString(ConfigKey.PATH, ConfigKey.PATH_DEFAULT);
             toFileName = PropertiesUtil.getString(ConfigKey.TO_FILE, ConfigKey.TO_FILE_DEFAULT);
             charsetName = PropertiesUtil.getString(ConfigKey.CHAR_SET, ConfigKey.CHAR_SET_DEFAULT);
-            containWord = PropertiesUtil.getString(ConfigKey.CONTAIN_WORD, ConfigKey.CONTAIN_WORD_DEFAULT);
+            containWord = PropertiesUtil.getString(ConfigKey.WORD_KEY, ConfigKey.CONTAIN_WORD_DEFAULT);
+
+            String wordValuesStr = PropertiesUtil.getString(ConfigKey.WORD_VALUES,"");
+            param.put(ConfigKey.WORD_VALUES,wordValuesStr);
+
+            String separator = PropertiesUtil.getString(ConfigKey.SEPARATOR,"");
+            param.put(ConfigKey.SEPARATOR,separator);
+
+            String wordKey = PropertiesUtil.getString(ConfigKey.WORD_KEY,"");
+            param.put(ConfigKey.WORD_KEY,wordKey);
+
+
             type = PropertiesUtil.getInteger(ConfigKey.TYPE, TaskType.SPLIT_LOG);
             param.put(ConfigKey.TYPE,type);
             String suffix = PropertiesUtil.getString(ConfigKey.SUFFIX, "log");

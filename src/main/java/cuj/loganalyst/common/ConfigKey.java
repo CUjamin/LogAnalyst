@@ -14,7 +14,10 @@ public class ConfigKey {
 
     public static final String CHAR_SET="CHARSET";
     public static final String CHAR_SET_DEFAULT="GBK";
-    public static final String CONTAIN_WORD="CONTAIN_WORD";
+    public static final String WORD_KEY="WORD_KEY";
+
+    public static final String SEPARATOR="SEPARATOR";
+    public static final String WORD_VALUES="WORD_VALUES";
     public static final String CONTAIN_WORD_DEFAULT="";
 
     public static final String TYPE="TYPE";

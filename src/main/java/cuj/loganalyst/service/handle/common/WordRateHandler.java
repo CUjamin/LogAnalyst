@@ -1,6 +1,6 @@
 package cuj.loganalyst.service.handle.common;
 
-import cuj.loganalyst.common.ParamKey;
+import cuj.loganalyst.common.ConfigKey;
 import cuj.loganalyst.util.LogUtils;
 import cuj.loganalyst.util.TimeUtil;
 import org.slf4j.Logger;
@@ -16,8 +16,8 @@ import java.util.Map;
  * @Date: 2019/3/4 11:52
  * @Description:
  */
-public class TimeDiffHandler implements Handler{
-    private final static Logger log = LoggerFactory.getLogger(TimeDiffHandler.class);
+public class WordRateHandler implements Handler{
+    private final static Logger log = LoggerFactory.getLogger(WordRateHandler.class);
     private final static String spitKey1 = " INFO";
 
     public List<String> handle(List<List<String>> dataLists, Map<String, Object> params){
@@ -27,7 +27,7 @@ public class TimeDiffHandler implements Handler{
         }else {
             log.info(" [start analysis ... ] ");
             List<String> dataList = dataLists.remove(0);
-            String pattern = LogUtils.getPatternOrder(ParamKey.CONTAIN_WORD);
+            String pattern = LogUtils.getPatternOrder(ConfigKey.WORD_KEY);
             log.info("pattern:"+pattern);
             if(null!=dataList&&dataList.size()>0)
             {

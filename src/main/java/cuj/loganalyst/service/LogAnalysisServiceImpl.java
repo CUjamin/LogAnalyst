@@ -4,7 +4,8 @@ import cuj.loganalyst.common.ConfigKey;
 import cuj.loganalyst.common.TaskType;
 import cuj.loganalyst.service.handle.common.Handler;
 import cuj.loganalyst.service.handle.common.MergeHandler;
-import cuj.loganalyst.service.handle.common.TimeDiffHandler;
+import cuj.loganalyst.service.handle.common.WordRateHandler;
+import cuj.loganalyst.service.handle.common.WordValuesStatisticsHandler;
 import cuj.loganalyst.service.handle.common.sifte.SifteServiceImpl;
 import cuj.loganalyst.service.io.input.InputService;
 import cuj.loganalyst.service.io.input.InputServiceImpl;
@@ -61,7 +62,11 @@ public class LogAnalysisServiceImpl implements LogAnalysisService {
                     break;
                 }
                 case  TaskType.TIME_DIFF:{
-                    handler = new TimeDiffHandler();
+                    handler = new WordRateHandler();
+                    break;
+                }
+                case TaskType.STATISTICS:{
+                    handler = new WordValuesStatisticsHandler();
                     break;
                 }
                 default:break;
