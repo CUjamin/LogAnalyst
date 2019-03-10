@@ -1,6 +1,7 @@
-package cuj.loganalyst.service.handle.common;
+package cuj.loganalyst.service.handle;
 
 import cuj.loganalyst.common.ConfigKey;
+import cuj.loganalyst.service.io.output.OutputService;
 import cuj.loganalyst.util.LogUtils;
 import cuj.loganalyst.util.TimeUtil;
 import org.slf4j.Logger;
@@ -20,14 +21,24 @@ public class WordRateHandler implements Handler{
     private final static Logger log = LoggerFactory.getLogger(WordRateHandler.class);
     private final static String spitKey1 = " INFO";
 
-    public List<String> handle(List<List<String>> dataLists, Map<String, Object> params){
+    public void handle(
+            Map<String,List<String>> dataListMap,
+            Map<String, Object> params,
+            OutputService outputService){
+
         List<String> resultDataList = new LinkedList<>();
+
+        List<List<String>> dataLists = new LinkedList<>();
+        for(String fileName:dataListMap.keySet()){
+            dataLists.add(dataListMap.get(fileName));
+        }
+
         if(dataLists.size()>1){
             log.info("dataLists > 1 end ");
         }else {
             log.info(" [start analysis ... ] ");
             List<String> dataList = dataLists.remove(0);
-            String pattern = LogUtils.getPatternOrder(ConfigKey.WORD_KEY);
+            String pattern = LogUtils.getPatternOrder((String)params.get(ConfigKey.WORD_KEY));
             log.info("pattern:"+pattern);
             if(null!=dataList&&dataList.size()>0)
             {
@@ -53,7 +64,9 @@ public class WordRateHandler implements Handler{
             }
             log.info(" [start analysis end ] ");
         }
-        return resultDataList;
+        String suffix = (String)params.get(ConfigKey.SUFFIX);
+        String filename = (String)params.get(ConfigKey.TO_FILE)+"."+suffix;
+        outputService.outputInFile(resultDataList, filename,(String)params.get(ConfigKey.CHAR_SET));
     }
 
 

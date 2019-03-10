@@ -1,6 +1,8 @@
-package cuj.loganalyst.service.handle.common;
+package cuj.loganalyst.service.handle;
 
 
+import cuj.loganalyst.common.ConfigKey;
+import cuj.loganalyst.service.io.output.OutputService;
 import cuj.loganalyst.util.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,18 +21,31 @@ public class MergeHandler implements Handler{
     private final static Logger log = LoggerFactory.getLogger(MergeHandler.class);
     private final static String spitKey1 = " INFO";
 
-    public List<String> handle(List<List<String>> dataLists,Map<String, Object> params){
-        List<String> resultDataList = new LinkedList<>();
+    public void handle(
+            Map<String,List<String>> dataListMap,
+            Map<String, Object> params,
+            OutputService outputService){
+
+        List<List<String>> dataLists = new LinkedList<>();
+        for(String fileName:dataListMap.keySet()){
+            dataLists.add(dataListMap.get(fileName));
+        }
 
         log.info(" [start merge any files... ] ");
 
-        while(dataLists.size()>1){
-            List<String> listA = dataLists.remove(0);
-            List<String> listB = dataLists.remove(0);
-            List<String> newList = mergeTwoList(listA,listB);
-            resultDataList.addAll(newList);
+        if(dataLists.size()>=1){
+            while(dataLists.size()>1){
+                List<String> listA = dataLists.remove(0);
+                List<String> listB = dataLists.remove(0);
+                List<String> newList = mergeTwoList(listA,listB);
+                dataLists.add(newList);
+            }
+            String suffix = (String)params.get(ConfigKey.SUFFIX);
+            String filename = (String)params.get(ConfigKey.TO_FILE)+"."+suffix;
+            outputService.outputInFile(dataLists.remove(0), filename,(String)params.get(ConfigKey.CHAR_SET));
+        }else {
+            return ;
         }
-        return resultDataList;
     }
 
     public List<String> mergeTwoList(List<String> listA,List<String> listB){

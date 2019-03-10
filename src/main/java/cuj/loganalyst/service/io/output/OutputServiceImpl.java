@@ -20,6 +20,7 @@ public class OutputServiceImpl implements OutputService {
      */
     @Override
     public void outputInFile(List<String> list,String fileName,String charsetName) {
+
         OutputStreamWriter writer = null;
         FileOutputStream fout = null;
 
