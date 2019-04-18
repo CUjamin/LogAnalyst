@@ -42,55 +42,48 @@
 
     <build>
         <plugins>
+
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptorRefs>jar-with-dependencies</descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>cuj.loganalyst.LogAnalyst</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.5.6.RELEASE</version>
                 <executions>
                     <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>repackage</goal>
+                            <goal>assembly</goal>
                         </goals>
-                        <configuration>
-                            <classifier>exec</classifier>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
-
             <!--<plugin>-->
                 <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-assembly-plugin</artifactId>-->
-                <!--<version>2.4.1</version>-->
+                <!--<artifactId>maven-compiler-plugin</artifactId>-->
                 <!--<configuration>-->
-                    <!--&lt;!&ndash; get all project dependencies &ndash;&gt;-->
-                    <!--<descriptorRefs>-->
-                        <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
-                    <!--</descriptorRefs>-->
-                    <!--&lt;!&ndash; MainClass in mainfest make a executable jar &ndash;&gt;-->
-                    <!--&lt;!&ndash;<archive>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<manifest>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<mainClass>util.Microseer</mainClass>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</manifest>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</archive>&ndash;&gt;-->
-
+                    <!--<source>1.8</source>-->
+                    <!--<target>1.8</target>-->
                 <!--</configuration>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<version>1.5.6.RELEASE</version>-->
                 <!--<executions>-->
                     <!--<execution>-->
-                        <!--<id>make-assembly</id>-->
-                        <!--&lt;!&ndash; bind to the packaging phase &ndash;&gt;-->
-                        <!--<phase>package</phase>-->
                         <!--<goals>-->
-                            <!--<goal>single</goal>-->
+                            <!--<goal>repackage</goal>-->
                         <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<classifier>exec</classifier>-->
+                        <!--</configuration>-->
                     <!--</execution>-->
                 <!--</executions>-->
             <!--</plugin>-->
